@@ -36,6 +36,7 @@ public class AddElem extends JPanel {
                 if (arrVis.arr.size() <= 10) {
                     try {
                         arrVis.arr.add(Integer.parseInt(element));
+                        arrVis.arrColor.add(arrVis.getBackground());
                         arrVis.repaint();
                     }
                     catch (NumberFormatException ex){

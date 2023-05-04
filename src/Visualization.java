@@ -37,13 +37,16 @@ public class Visualization extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 arrVis.arr.clear();
+                arrVis.arrColor.clear();
                 arrVis.repaint();
             }
         });
         randomArr.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                arrVis.arr = generateRandomArray();
+                arrVis.arr.clear();
+                arrVis.arrColor.clear();
+                generateRandomArray();
                 arrVis.repaint();
             }
         });
@@ -52,8 +55,6 @@ public class Visualization extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 sort = new Sort(arrVis);
                 sort.selectionSort();
-                arrVis.arr = sort.arr;
-                arrVis.repaint();
             }
         });
 
@@ -67,12 +68,11 @@ public class Visualization extends JPanel{
         add(arrVis);
         add(buttonPanel,BorderLayout.SOUTH);
     }
-    public ArrayList generateRandomArray(){
-        ArrayList arr = new ArrayList();
+    public void generateRandomArray(){
         Random random = new Random();
-        while (arr.size() <= 10){
-            arr.add(random.nextInt(100)-50);
+        while (arrVis.arr.size() <= 10){
+            arrVis.arr.add(random.nextInt(100)-50);
+            arrVis.arrColor.add(arrVis.getBackground());
         }
-        return arr;
     }
 }
