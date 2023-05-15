@@ -19,6 +19,7 @@ public class Visualization extends JPanel{
 
     public Visualization() {
         arrVis = new ArrayVisualization();
+        sort = new Sort(arrVis);
         resetArray = new JButton("Отчистить массив");
         startVis = new JButton("Начать сортировку");
         randomArr = new JButton("Сгенерировать массив");
@@ -53,7 +54,6 @@ public class Visualization extends JPanel{
         startVis.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sort = new Sort(arrVis);
                 sort.selectionSort();
             }
         });

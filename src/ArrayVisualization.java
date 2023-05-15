@@ -10,18 +10,15 @@ public class ArrayVisualization extends JPanel {
     public ArrayList<Color> arrColor;
     private int x = 150;
     private int y = 80;
-    public ArrayList<Integer> elemCoords;
 
     public ArrayVisualization() {
-        elemCoords = new ArrayList<>();
         arrColor = new ArrayList<>();
-        this.arr = new ArrayList<>();
+        arr = new ArrayList<>();
         setLayout(new BorderLayout());
     }
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        elemCoords.clear();
         x = 150;
         g.setColor(Color.BLACK);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
@@ -29,12 +26,19 @@ public class ArrayVisualization extends JPanel {
         g.drawString("array = ", x - widthOfDef - 10, y);
         for (int i = 0;i<arr.size();i++){
             int element = arr.get(i);
-            ArrayElem arrElem = new ArrayElem(x,arrColor.get(i),element);
-            elemCoords.add(arrElem.paintComponent(g));
-
+            Color color = arrColor.get(i);
             int width = g.getFontMetrics().stringWidth(Integer.toString(element));
+            paintElement(g,element,color);
             x += width + 20;
         }
+    }
+    public void paintElement(Graphics g,int element, Color color){
+        g.setColor(color);
+        int width = g.getFontMetrics().stringWidth(Integer.toString(element));
+        g.fillRect(x-10,y-40,width+20,60);
+        g.setColor(Color.BLACK);
+        g.drawRect(x-10,y-40,width+20,60);
+        g.drawString(Integer.toString(element),x,y);
     }
 
 }

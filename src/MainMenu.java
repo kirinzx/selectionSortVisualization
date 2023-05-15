@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class MainMenu implements Runnable {
+public class MainMenu extends JFrame {
     private final CardLayout cardLayout;
 
     private final JPanel mainPanel;
@@ -16,20 +16,16 @@ public class MainMenu implements Runnable {
     public MainMenu() {
         this.cardLayout = new CardLayout();
         this.mainPanel = createMainPanel();
-    }
 
-    @Override
-    public void run() {
-        JFrame frame = new JFrame("Сортировка выбором");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.add(mainPanel, BorderLayout.CENTER);
+        add(mainPanel, BorderLayout.CENTER);
 
-        frame.pack();
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setMinimumSize(frame.getMinimumSize());
-        frame.setLocationByPlatform(true);
-        frame.setVisible(true);
+        pack();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setMinimumSize(this.getMinimumSize());
+        setLocationByPlatform(true);
+        setVisible(true);
     }
 
     private JPanel createMainPanel() {

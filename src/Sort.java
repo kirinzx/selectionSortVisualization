@@ -3,38 +3,33 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
-public class Sort {
+public class Sort{
     public ArrayVisualization arrVis;
-    public ArrayList<Integer> elemCoords;
     private Timer timer;
     public Sort(ArrayVisualization arrVis){
         this.arrVis = arrVis;
-        this.elemCoords = arrVis.elemCoords;
     }
 
     public void selectionSort() {
         for (int i = 0; i < arrVis.arr.size(); i++) {
             int min = i;
             int finalMin = min;
-//            Thread thread = new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    arrVis.arrColor.set(finalMin,Color.GREEN);
-//                    arrVis.repaint();
-//                    try {
-//                        Thread.sleep(10000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//            thread.start();
-            arrVis.arrColor.set(finalMin,Color.GREEN);
-            arrVis.repaint();
-            delay(3000);
+            timer = new Timer(2000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println(finalMin);
+                    arrVis.arrColor.set(finalMin,Color.YELLOW);
+                    arrVis.repaint();
+                }
+            });
+            timer.setRepeats(false);
+ //           timer.setDelay(200);
+            timer.start();
+            System.out.println("delay" + finalMin);
+            delay(2000);
+            System.out.println("delay2" + finalMin);
             for (int j = i + 1; j < arrVis.arr.size(); j++) {
+
                 if (arrVis.arr.get(j) < arrVis.arr.get(min)) {
                     min = j;
                 }
@@ -42,11 +37,9 @@ public class Sort {
             int helper = arrVis.arr.get(i);
             arrVis.arr.set(i,arrVis.arr.get(min));
             arrVis.arr.set(min,helper);
-
-
         }
     }
-    public static void delay(long time) {
+    public static void delay(long time) {// takes time in milliseconds
         long nanoseconds = time * (long) Math.pow(10, 6);
         long timepassed;
         long startTime = System.nanoTime();
