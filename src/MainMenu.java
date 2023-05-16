@@ -1,6 +1,4 @@
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,6 +23,7 @@ public class MainMenu extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setMinimumSize(this.getMinimumSize());
         setLocationByPlatform(true);
+        setTitle("Сортировка выбором");
         setVisible(true);
     }
 
@@ -33,7 +32,6 @@ public class MainMenu extends JFrame {
 
         panel.add(createMenuPanel(), "menu");
         panel.add(new Visualization(), "visualization");
-
         return panel;
     }
 

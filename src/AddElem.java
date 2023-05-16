@@ -16,12 +16,9 @@ public class AddElem extends JPanel {
         this.arrVis = arrVis;
         setLayout(new GridLayout(1, 2));
 
-        uneditTextArea.setEditable(false);
-
         Border border = BorderFactory.createLineBorder(Color.BLACK);
         editTextArea.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(1, 1, 1, 1)));
 
-        add(uneditTextArea, BorderLayout.CENTER);
         add(editTextArea, BorderLayout.SOUTH);
         add(inputButton, BorderLayout.WEST);
 
@@ -43,6 +40,8 @@ public class AddElem extends JPanel {
                         showMessageDialog(null, "Некорректные данные");
                     }
                 }
+                else
+                    showMessageDialog(null, "Максимальный размер массива - 10. Лимит превыщен");
             }
         });
         setVisible(true);

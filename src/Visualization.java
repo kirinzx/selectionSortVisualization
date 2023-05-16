@@ -2,31 +2,31 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Visualization extends JPanel{
     private static final long serialVersionUID = 1L;
-    public ArrayVisualization arrVis;
+    public final ArrayVisualization arrVis;
     public Sort sort;
-    private JButton resetArray;
-    private JButton startVis;
-    private JButton randomArr;
-    private JPanel buttonPanel;
-    private AddElem addElem;
-    private int x = 150;
-    private int y = 80;
+    private final JButton resetArray;
+    private final JButton startVis;
+    private final JButton randomArr;
+    private final JButton skipVis;
+    private final JPanel buttonPanel;
+    private final AddElem addElem;
 
     public Visualization() {
         arrVis = new ArrayVisualization();
-        sort = new Sort(arrVis);
         resetArray = new JButton("Отчистить массив");
         startVis = new JButton("Начать сортировку");
         randomArr = new JButton("Сгенерировать массив");
+        skipVis = new JButton("Пропустить визуалицию");
         buttonPanel = new JPanel();
         addElem = new AddElem(arrVis);
 
         buttonPanel.setLayout(new GridBagLayout());
+
+        skipVis.setEnabled(false);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridy = 0;
@@ -54,7 +54,16 @@ public class Visualization extends JPanel{
         startVis.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sort.selectionSort();
+                sort = new Sort(arrVis);
+                (new Thread(sort)).start();
+                skipVis.setEnabled(true);
+                skipVis.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        sort.isSkip = true;
+                    }
+                });
+
             }
         });
 
@@ -62,6 +71,7 @@ public class Visualization extends JPanel{
         buttonPanel.add(startVis, gbc);
         buttonPanel.add(randomArr, gbc);
         buttonPanel.add(resetArray, gbc);
+        buttonPanel.add(skipVis,gbc);
 
         setLayout(new BorderLayout());
 

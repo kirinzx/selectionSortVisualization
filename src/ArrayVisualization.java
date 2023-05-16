@@ -9,7 +9,7 @@ public class ArrayVisualization extends JPanel {
     public ArrayList<Integer> arr;
     public ArrayList<Color> arrColor;
     private int x = 150;
-    private int y = 80;
+    private final int y = 400;
 
     public ArrayVisualization() {
         arrColor = new ArrayList<>();
