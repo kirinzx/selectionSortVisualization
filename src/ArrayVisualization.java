@@ -8,7 +8,7 @@ public class ArrayVisualization extends JPanel {
 
     public ArrayList<Integer> arr;
     public ArrayList<Color> arrColor;
-    private int x = 150;
+    private int x = 450;
     private final int y = 400;
 
     public ArrayVisualization() {
@@ -19,7 +19,7 @@ public class ArrayVisualization extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        x = 150;
+        int x = this.x;
         g.setColor(Color.BLACK);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
         int widthOfDef = g.getFontMetrics().stringWidth("array = ");
@@ -28,11 +28,11 @@ public class ArrayVisualization extends JPanel {
             int element = arr.get(i);
             Color color = arrColor.get(i);
             int width = g.getFontMetrics().stringWidth(Integer.toString(element));
-            paintElement(g,element,color);
+            paintElement(g,element,color, x);
             x += width + 20;
         }
     }
-    public void paintElement(Graphics g,int element, Color color){
+    public void paintElement(Graphics g,int element, Color color, int x){
         g.setColor(color);
         int width = g.getFontMetrics().stringWidth(Integer.toString(element));
         g.fillRect(x-10,y-40,width+20,60);

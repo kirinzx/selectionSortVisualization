@@ -8,10 +8,11 @@ public class Visualization extends JPanel{
     private static final long serialVersionUID = 1L;
     public final ArrayVisualization arrVis;
     public Sort sort;
+    private ChangeDelayPanel changeDelayPanel;
     private final JButton resetArray;
     private final JButton startVis;
     private final JButton randomArr;
-    private final JButton skipVis;
+    private final JButton stopVis;
     private final JPanel buttonPanel;
     private final AddElem addElem;
 
@@ -20,13 +21,23 @@ public class Visualization extends JPanel{
         resetArray = new JButton("Отчистить массив");
         startVis = new JButton("Начать сортировку");
         randomArr = new JButton("Сгенерировать массив");
-        skipVis = new JButton("Пропустить визуалицию");
+        stopVis = new JButton("Остановить визуалицию");
         buttonPanel = new JPanel();
-        addElem = new AddElem(arrVis);
+
+        sort = new Sort(arrVis,stopVis,startVis,resetArray,randomArr);
+        changeDelayPanel = new ChangeDelayPanel(sort);
+        sort.changeDelay = changeDelayPanel.changeDelay;
+        addElem = new AddElem(arrVis,startVis,changeDelayPanel.changeDelay,resetArray);
+        sort.addElem = addElem;
+        addElem.sort = sort;
+
 
         buttonPanel.setLayout(new GridBagLayout());
 
-        skipVis.setEnabled(false);
+        resetArray.setEnabled(false);
+        changeDelayPanel.changeDelay.setEnabled(false);
+        stopVis.setEnabled(false);
+        startVis.setEnabled(false);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridy = 0;
@@ -40,6 +51,10 @@ public class Visualization extends JPanel{
                 arrVis.arr.clear();
                 arrVis.arrColor.clear();
                 arrVis.repaint();
+                startVis.setEnabled(false);
+                changeDelayPanel.changeDelay.setEnabled(false);
+                randomArr.setEnabled(true);
+                resetArray.setEnabled(false);
             }
         });
         randomArr.addActionListener(new ActionListener() {
@@ -49,18 +64,34 @@ public class Visualization extends JPanel{
                 arrVis.arrColor.clear();
                 generateRandomArray();
                 arrVis.repaint();
+                startVis.setEnabled(true);
+                changeDelayPanel.changeDelay.setEnabled(true);
+                resetArray.setEnabled(true);
             }
         });
         startVis.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sort = new Sort(arrVis);
-                (new Thread(sort)).start();
-                skipVis.setEnabled(true);
-                skipVis.addActionListener(new ActionListener() {
+                Thread thread = new Thread(sort);
+                startVis.setEnabled(false);
+                stopVis.setEnabled(true);
+                resetArray.setEnabled(false);
+                randomArr.setEnabled(false);
+                addElem.editTextArea.setEnabled(false);
+                addElem.inputButton.setEnabled(false);
+                changeDelayPanel.changeDelay.setEnabled(false);
+                thread.start();
+                stopVis.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        sort.isSkip = true;
+                        thread.stop();
+                        changeDelayPanel.changeDelay.setEnabled(true);
+                        startVis.setEnabled(true);
+                        stopVis.setEnabled(false);
+                        resetArray.setEnabled(true);
+                        randomArr.setEnabled(true);
+                        addElem.editTextArea.setEnabled(true);
+                        addElem.inputButton.setEnabled(true);
                     }
                 });
 
@@ -68,10 +99,11 @@ public class Visualization extends JPanel{
         });
 
         buttonPanel.add(addElem, gbc);
-        buttonPanel.add(startVis, gbc);
         buttonPanel.add(randomArr, gbc);
         buttonPanel.add(resetArray, gbc);
-        buttonPanel.add(skipVis,gbc);
+        buttonPanel.add(startVis, gbc);
+        buttonPanel.add(stopVis,gbc);
+        buttonPanel.add(changeDelayPanel,gbc);
 
         setLayout(new BorderLayout());
 

@@ -2,77 +2,112 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
+
 public class Sort implements Runnable{
     public ArrayVisualization arrVis;
-    public boolean isSkip;
     private Timer timer;
-    public Sort(ArrayVisualization arrVis){
+    private final JButton stopVis;
+    private JButton startVis;
+    private JButton resetArray;
+    private JButton randomArr;
+    public AddElem addElem;
+    public JSlider changeDelay;
+    public int delay;
+    public Sort(ArrayVisualization arrVis, JButton stopVis, JButton startVis, JButton resetArray, JButton randomArr){
+        delay = 100;
+        this.resetArray = resetArray;
+        this.randomArr = randomArr;
+        this.startVis = startVis;
+        this.stopVis = stopVis;
         this.arrVis = arrVis;
-        isSkip = false;
     }
     public void run(){
         selectionSort();
     }
-    public void changeColor(int index,Color color, int flagIndex){
-        if (isSkip == false) {
-            timer = new Timer(1000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
+    public void changeColor(int index,Color color, int flagIndex, int indexForChangeFlag){
+        timer = new Timer(delay, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-                    arrVis.arrColor.set(index, color);
-                    if (flagIndex != index && flagIndex != -1)
-                        arrVis.arrColor.set(index - 1, arrVis.getBackground());
-                    arrVis.repaint();
+                arrVis.arrColor.set(index, color);
+                if (flagIndex != index && flagIndex != -1) {
+                    arrVis.arrColor.set(index - 1, arrVis.getBackground());
                 }
-            });
-            timer.setRepeats(false);
-            timer.start();
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                if (indexForChangeFlag != -1 )
+                    arrVis.arrColor.set(indexForChangeFlag,arrVis.getBackground());
+                arrVis.repaint();
             }
-        }
+        });
+        timer.setRepeats(false);
+        timer.start();
 
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
     public void selectionSort() {
-        for(int i = 0; i<arrVis.arrColor.size(); i++){
-            arrVis.arrColor.set(i,arrVis.getBackground());
+        for (int i = 0; i < arrVis.arrColor.size(); i++) {
+            arrVis.arrColor.set(i, arrVis.getBackground());
         }
-        for (int i = 0; i < arrVis.arr.size(); i++) {
-            int min = i;
-            changeColor(min,Color.RED,-1);
-            for (int j = i + 1; j < arrVis.arr.size(); j++) {
-                if (j == i + 1) {
-                    arrVis.arrColor.set(arrVis.arrColor.size()-1,arrVis.getBackground());
-                    changeColor(j, Color.YELLOW, i + 1);
+        if (delay != 0) {
+            for (int i = 0; i < arrVis.arr.size(); i++) {
+                if (i != arrVis.arr.size() - 1) {
+                    int min = i;
+                    changeColor(min, Color.RED, -1,-1);
+                    for (int j = i + 1; j < arrVis.arr.size(); j++) {
+                        if (j == i + 1) {
+                            arrVis.arrColor.set(arrVis.arrColor.size() - 1, arrVis.getBackground());
+                            changeColor(j, Color.YELLOW, min + 1,-1);
+                        } else
+                            changeColor(j, Color.YELLOW, min + 1,-1);
+                        if (arrVis.arr.get(j) < arrVis.arr.get(min)) {
+                            changeColor(j,Color.RED,-1,min);
+                            min = j;
+
+                        }
+                    }
+                    int helper = arrVis.arr.get(i);
+                    arrVis.arr.set(i, arrVis.arr.get(min));
+                    arrVis.arr.set(min, helper);
+                    if (min == i)
+                        arrVis.arrColor.set(i, Color.GREEN);
+                    else {
+                        arrVis.arrColor.set(i, Color.GREEN);
+                        arrVis.arrColor.set(min, arrVis.getBackground());
+                    }
                 }
-                else
-                    changeColor(j, Color.YELLOW,i + 1);
-                if (arrVis.arr.get(j) < arrVis.arr.get(min)) {
-                    min = j;
+                else{
+                    changeColor(i,Color.RED,-1,-1);
+                    changeColor(i,Color.GREEN,-1,-1);
                 }
-            }
-            int helper = arrVis.arr.get(i);
-            arrVis.arr.set(i,arrVis.arr.get(min));
-            arrVis.arr.set(min,helper);
-            if (min == i)
-                arrVis.arrColor.set(min, Color.GREEN);
-            else {
-                arrVis.arrColor.set(i, Color.GREEN);
-                arrVis.arrColor.set(min, arrVis.getBackground());
             }
         }
-
-        arrVis.arrColor.set(arrVis.arr.size()-1, Color.GREEN);
-
-        if (isSkip == true)
-            for(int i = 0; i<arrVis.arrColor.size(); i++){
-                arrVis.arrColor.set(i,Color.GREEN);
+        else {
+            for (int i = 0; i < arrVis.arr.size(); i++) {
+                int min = i;
+                for (int j = i + 1; j < arrVis.arr.size(); j++) {
+                    if (arrVis.arr.get(j) < arrVis.arr.get(min)) {
+                        min = j;
+                    }
+                }
+                int helper = arrVis.arr.get(i);
+                arrVis.arr.set(i, arrVis.arr.get(min));
+                arrVis.arr.set(min, helper);
             }
-
-        arrVis.repaint();
-        isSkip = false;
+            for (int j = 0; j < arrVis.arrColor.size(); j++) {
+                arrVis.arrColor.set(j, Color.GREEN);
+            }
+            arrVis.repaint();
+        }
+        stopVis.setEnabled(false);
+        changeDelay.setEnabled(true);
+        startVis.setEnabled(true);
+        resetArray.setEnabled(true);
+        randomArr.setEnabled(true);
+        addElem.inputButton.setEnabled(true);
+        addElem.editTextArea.setEnabled(true);
     }
 }
