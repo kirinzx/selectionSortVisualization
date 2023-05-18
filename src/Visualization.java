@@ -18,7 +18,7 @@ public class Visualization extends JPanel{
 
     public Visualization() {
         arrVis = new ArrayVisualization();
-        resetArray = new JButton("Отчистить массив");
+        resetArray = new JButton("Очистить массив");
         startVis = new JButton("Начать сортировку");
         randomArr = new JButton("Сгенерировать массив");
         stopVis = new JButton("Остановить визуалицию");

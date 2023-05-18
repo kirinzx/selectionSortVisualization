@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collections;
+import java.util.Arrays;
 
 public class Sort implements Runnable{
     public ArrayVisualization arrVis;
@@ -31,11 +31,8 @@ public class Sort implements Runnable{
             public void actionPerformed(ActionEvent e) {
 
                 arrVis.arrColor.set(index, color);
-                if (flagIndex != index && flagIndex != -1) {
+                if (flagIndex != index && flagIndex != -1)
                     arrVis.arrColor.set(index - 1, arrVis.getBackground());
-                }
-                if (indexForChangeFlag != -1 )
-                    arrVis.arrColor.set(indexForChangeFlag,arrVis.getBackground());
                 arrVis.repaint();
             }
         });
@@ -44,6 +41,9 @@ public class Sort implements Runnable{
 
         try {
             Thread.sleep(delay);
+            if (indexForChangeFlag != -1 )
+                arrVis.arrColor.set(indexForChangeFlag,arrVis.getBackground());
+
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -61,12 +61,12 @@ public class Sort implements Runnable{
                         if (j == i + 1) {
                             arrVis.arrColor.set(arrVis.arrColor.size() - 1, arrVis.getBackground());
                             changeColor(j, Color.YELLOW, min + 1,-1);
-                        } else
+                        }
+                        else
                             changeColor(j, Color.YELLOW, min + 1,-1);
                         if (arrVis.arr.get(j) < arrVis.arr.get(min)) {
                             changeColor(j,Color.RED,-1,min);
                             min = j;
-
                         }
                     }
                     int helper = arrVis.arr.get(i);
@@ -109,5 +109,9 @@ public class Sort implements Runnable{
         randomArr.setEnabled(true);
         addElem.inputButton.setEnabled(true);
         addElem.editTextArea.setEnabled(true);
+    }
+    private void printArray(){
+        System.out.print("Colors: ");
+        System.out.println(Arrays.toString(arrVis.arrColor.toArray()));
     }
 }
