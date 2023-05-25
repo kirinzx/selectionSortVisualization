@@ -14,6 +14,7 @@ public class Sort implements Runnable{
     public JSlider changeDelay;
     public int delay;
     public Sort(ArrayVisualization arrVis, JButton stopVis, JButton startVis, JButton resetArray, JButton randomArr){
+        this.delay = 500;
         this.resetArray = resetArray;
         this.randomArr = randomArr;
         this.startVis = startVis;
