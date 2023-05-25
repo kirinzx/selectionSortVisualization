@@ -1,5 +1,4 @@
 import java.awt.*;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -44,7 +43,7 @@ public class MainMenu extends JFrame {
         mainPanel.add(label);
 
         JLabel description = new JLabel(
-                "<html><span>Алгоритм сортировки. Может быть как устойчивый, так и неустойчивый. На массиве из n элементов имеет время выполнения в худшем, среднем и лучшем случае O(n2), предполагая что сравнения делаются за постоянное время.</span></html>");
+                "<html><span>Алгоритм сортировки. Может быть как устойчивый, так и неустойчивый. На массиве из n элементов имеет время выполнения в худшем, среднем и лучшем случае O(n^2), предполагая что сравнения делаются за постоянное время.</span></html>");
         description.setFont(label.getFont().deriveFont(20.0f));
         mainPanel.add(description);
 

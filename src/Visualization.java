@@ -19,7 +19,7 @@ public class Visualization extends JPanel{
     public Visualization() {
         arrVis = new ArrayVisualization();
         resetArray = new JButton("Очистить массив");
-        startVis = new JButton("Начать сортировку");
+        startVis = new JButton("Начать визуализацию");
         randomArr = new JButton("Сгенерировать массив");
         stopVis = new JButton("Остановить визуалицию");
         buttonPanel = new JPanel();
@@ -113,7 +113,7 @@ public class Visualization extends JPanel{
     public void generateRandomArray(){
         Random random = new Random();
         while (arrVis.arr.size() <= 10){
-            arrVis.arr.add(random.nextInt(100)-50);
+            arrVis.arr.add(random.nextInt(500)-100);
             arrVis.arrColor.add(arrVis.getBackground());
         }
     }

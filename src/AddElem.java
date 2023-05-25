@@ -30,7 +30,16 @@ public class AddElem extends JPanel {
                 editTextArea.setText("");
                 if (arrVis.arr.size() <= 10) {
                     try {
-                        arrVis.arr.add(Integer.parseInt(element));
+                        int intElement = Integer.parseInt(element);
+                        if (intElement > 400){
+                            arrVis.arr.add(400);
+                        }
+                        else if (intElement < -100){
+                            arrVis.arr.add(-100);
+                        }
+                        else {
+                            arrVis.arr.add(intElement);
+                        }
                         arrVis.arrColor.add(arrVis.getBackground());
                         startVis.setEnabled(true);
                         changeDelay.setEnabled(true);
@@ -41,7 +50,7 @@ public class AddElem extends JPanel {
                         showMessageDialog(null, "Некорректные данные");
                     }
                 } else
-                    showMessageDialog(null, "Максимальный размер массива - 10. Лимит превыщен");
+                    showMessageDialog(null, "Максимальный размер массива 10. Лимит превыщен");
             }
         };
         setLayout(new GridLayout(1, 2));

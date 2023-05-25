@@ -12,7 +12,8 @@ public class ChangeDelayPanel extends JPanel{
         this.sort = sort;
         changeDelay = new JSlider(JSlider.HORIZONTAL,6,1);
         changeDelayLabel = new JLabel("Время паузы между итерациями в сек.", JLabel.CENTER);
-
+        changeDelayLabel.setFont(new Font("TimesRoman", Font.PLAIN, 15));
+        changeDelayLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         Hashtable<Integer,JLabel> labelTable = new Hashtable<>();
         labelTable.put( 0, new JLabel("0.0"));
         labelTable.put( 1, new JLabel("0.5"));

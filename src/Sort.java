@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 public class Sort implements Runnable{
     public ArrayVisualization arrVis;
@@ -15,23 +14,23 @@ public class Sort implements Runnable{
     public JSlider changeDelay;
     public int delay;
     public Sort(ArrayVisualization arrVis, JButton stopVis, JButton startVis, JButton resetArray, JButton randomArr){
-        delay = 100;
         this.resetArray = resetArray;
         this.randomArr = randomArr;
         this.startVis = startVis;
         this.stopVis = stopVis;
         this.arrVis = arrVis;
     }
+    @Override
     public void run(){
         selectionSort();
     }
-    public void changeColor(int index,Color color, int flagIndex, int indexForChangeFlag){
+    public void changeColor(int index, Color color, int prevIndex, int indexForChangeFlag){
         timer = new Timer(delay, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 arrVis.arrColor.set(index, color);
-                if (flagIndex != index && flagIndex != -1)
+                if (prevIndex != index && prevIndex != -1)
                     arrVis.arrColor.set(index - 1, arrVis.getBackground());
                 arrVis.repaint();
             }
@@ -55,28 +54,28 @@ public class Sort implements Runnable{
         if (delay != 0) {
             for (int i = 0; i < arrVis.arr.size(); i++) {
                 if (i != arrVis.arr.size() - 1) {
-                    int min = i;
-                    changeColor(min, Color.RED, -1,-1);
+                    int flag = i;
+                    changeColor(flag, Color.RED, -1,-1);
                     for (int j = i + 1; j < arrVis.arr.size(); j++) {
                         if (j == i + 1) {
                             arrVis.arrColor.set(arrVis.arrColor.size() - 1, arrVis.getBackground());
-                            changeColor(j, Color.YELLOW, min + 1,-1);
+                            changeColor(j, Color.YELLOW, flag + 1,-1);
                         }
                         else
-                            changeColor(j, Color.YELLOW, min + 1,-1);
-                        if (arrVis.arr.get(j) < arrVis.arr.get(min)) {
-                            changeColor(j,Color.RED,-1,min);
-                            min = j;
+                            changeColor(j, Color.YELLOW, flag + 1,-1);
+                        if (arrVis.arr.get(j) < arrVis.arr.get(flag)) {
+                            changeColor(j,Color.RED,-1,flag);
+                            flag = j;
                         }
                     }
                     int helper = arrVis.arr.get(i);
-                    arrVis.arr.set(i, arrVis.arr.get(min));
-                    arrVis.arr.set(min, helper);
-                    if (min == i)
+                    arrVis.arr.set(i, arrVis.arr.get(flag));
+                    arrVis.arr.set(flag, helper);
+                    if (flag == i)
                         arrVis.arrColor.set(i, Color.GREEN);
                     else {
                         arrVis.arrColor.set(i, Color.GREEN);
-                        arrVis.arrColor.set(min, arrVis.getBackground());
+                        arrVis.arrColor.set(flag, arrVis.getBackground());
                     }
                 }
                 else{
@@ -109,9 +108,5 @@ public class Sort implements Runnable{
         randomArr.setEnabled(true);
         addElem.inputButton.setEnabled(true);
         addElem.editTextArea.setEnabled(true);
-    }
-    private void printArray(){
-        System.out.print("Colors: ");
-        System.out.println(Arrays.toString(arrVis.arrColor.toArray()));
     }
 }
